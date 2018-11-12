@@ -1,20 +1,29 @@
 const comments = require("../comments");
-
+let UserModel = require("../models/CommentModels");
 
 module.exports.list =  function list(request, response) {
-    return response.json(comments);
+    UserModel.find({}).exec()
+    .then(c => {
+    return response.json(c);
+    });
+  }
+
+  module.exports.show =  function show(req, res) {
+    UserModel.findById(req.params.id).exec()
+    .then(com => {
+        return res.json(com);
+    });
+
    }
-   module.exports.show =  function show(req, res) {
-    let cmt = comments.find((u) => u._id == req.params.id);
-    return res.json(cmt);
-   }
-   module.exports.create =  function create(req, res) {
-    const myid = parseInt(comments[comments.length-1]._id)+1;
-    comments.push(req.body);
-   console.log(req);
-   comments[comments.length-1]._id=myid;
-   return res.json(req.body);
-   }
+   module.exports.create =  function create(request, response) {
+    const newComment= new UserModel();
+
+    newComment.body = request.body.body;
+
+    newComment.save().then(savedUser => {
+        console.log(savedUser);
+      });
+  }
    module.exports.update =  function update(req, res) {
     let comm= comments.find((u) => u._id == req.params.id); 
     for (let property1 in comm) {

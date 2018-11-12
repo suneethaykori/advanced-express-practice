@@ -5,6 +5,10 @@ let CommentRoutes  = require("./routes/CommentRoutes");
 let ProductsRouters  = require("./routes/ProductsRouters");
 let VehiclesRouters  = require("./routes/VehiclesRouters");
 
+let mongoose = require("mongoose");
+mongoose.Promise = global.Promise;
+mongoose.connect("mongodb://sykori:corsair1@ds053774.mlab.com:53774/expresspractice");
+
 
 const app = express();
 
